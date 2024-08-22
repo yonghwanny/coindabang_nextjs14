@@ -1,0 +1,39 @@
+.wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 420px;
+  padding: 50px 0px;
+}
+
+.wrapper title {
+  font-size: 42px;
+}
+
+.wrapper form {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.wrapper input {
+  padding: 10px 20px;
+  border-radius: 50px;
+  border: none;
+  width: 100%;
+  font-size: 16px;
+  &[type="submit"]{
+    cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+.wrapper error {
+  font-weight: 600;
+  color: tomato;
+}
