@@ -3,13 +3,16 @@
 //import { Metadata } from 'next'
 import { useState } from 'react';
 import styles from "../../styles/login.module.css";
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../../config/firebase';
+import { FirebaseError } from 'firebase/app';
+import Link from 'next/link';
 /*
 export const metadata: Metadata = {
   title: 'Create Account',
 }
 */
+
 export default function CreateAccount() {
   //const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -31,6 +34,7 @@ export default function CreateAccount() {
   };
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError("");
     if (isLoading || name === "" || email === "" || password === "") return;
     try {
       setIsLoading(true);
@@ -42,24 +46,45 @@ export default function CreateAccount() {
       });
 
       // redirect to the mydabang
+      window.location.href = "/mydabang"
     } catch (e) {
       // set error
+      if(e instanceof FirebaseError) {
+        setError(e.message);
+      }
     } finally {
       setIsLoading(false);
     }
     
   }
 
+  const onClick = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+      // redirect to the mydabang
+      window.location.href = "/mydabang"
+    } catch(error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <div className={styles.wrapper}>
+    <div className="container">
+      <div className={styles.wrapper}>
       <div className={styles.title}>Join coindabang</div>
       <form className={styles.form} onSubmit={onSubmit}>
         <input onChange={onChange} className={styles.input} value={name} name="name" placeholder='Name' type='text' required></input>
         <input onChange={onChange} className={styles.input} value={email} name="email" placeholder='Email' type='email' required></input>
         <input onChange={onChange} className={styles.input} value={password} name="password" placeholder='Password' type='password' required></input>
-        <input type="submit" className={styles.input} value={isLoading ? "Loading..." : "Create Account"}></input>
+        <input className={styles.input} type="submit" value={isLoading ? "Loading..." : "Create Account"}></input>
       </form>
-      {error !== "" ? <div className={styles.error}>{error}</div> : null}
+      {error !== "" ? <div className="error">{error}</div> : null}
+      <div className="switcher">Already have an account? <Link href="/login">Log in &rarr;</Link></div>
+      <div className="google_button" onClick={onClick}>
+        Continue with google
+      </div>
+    </div>
     </div>
   )
 }
