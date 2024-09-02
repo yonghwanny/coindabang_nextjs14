@@ -2,10 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import styles from "../styles/timeline.module.css";
-import { collection, getDocs, limit, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { collection, limit, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import Tweet from './tweet';
-import { snapshot } from 'node:test';
 import { Unsubscribe } from 'firebase/auth';
 
 export interface ITweet {

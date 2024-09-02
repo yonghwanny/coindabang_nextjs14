@@ -24,9 +24,9 @@ export default function Tweet({ username, photo, tweet, userId, id }: ITweet) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.column}>
-        <div className={styles.username}>{username}</div>
-        <div className={styles.payload}>{tweet}</div>
-        {user?.uid === userId ? <div className={styles.delete_btn} onClick={onDelete}>Delete</div> : null}
+        <span className={styles.username}>{username}</span>
+        <p className={styles.payload}>{tweet}</p>
+        {user?.uid === userId ? <button className={styles.delete_btn} onClick={onDelete}>Delete</button> : null}
       </div>
       <div className={styles.column}>
       {photo ? (     
